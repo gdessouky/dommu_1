@@ -1,0 +1,1 @@
+xst -intstyle ise -ifn "H:/Projects/dommu_1/xbar_generic.xst" -ofn "H:/Projects/dommu_1/xbar_generic.syr" 

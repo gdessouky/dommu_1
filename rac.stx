@@ -1,0 +1,62 @@
+Release 13.4 - xst O.87xd (nt)
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to H:/Projects/dommu_1/xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 3.00 secs
+Total CPU time to Xst completion: 2.97 secs
+ 
+--> Parameter xsthdpdir set to H:/Projects/dommu_1/xst
+
+
+Total REAL time to Xst completion: 3.00 secs
+Total CPU time to Xst completion: 2.98 secs
+ 
+--> WARNING:Xst:3164 - Option "-debug" found multiple times in the command line. Only the first occurence is considered.
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling vhdl file "//samba01/dessouga/Projects/dommu_1/rac.vhd" in Library work.
+Entity <rac> compiled.
+ERROR:HDLParsers:521 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 80. Signal bram_array is not constrained.
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 108. Undefined symbol 'alloc_max'.
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 109. Undefined symbol 'alloc_num'.
+ERROR:HDLParsers:1209 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 109. alloc_num: Undefined symbol (last report in this block)
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 111. Undefined symbol 'bram_size'.
+ERROR:HDLParsers:1209 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 111. bram_size: Undefined symbol (last report in this block)
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 113. Undefined symbol 'bram_addr_wr'.
+ERROR:HDLParsers:808 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 120. = can not have such operands in this context.
+ERROR:HDLParsers:164 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 128. parse error, unexpected PROCESS, expecting IF
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 137. Undefined symbol 'alloc_num_D'.
+ERROR:HDLParsers:164 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 140. parse error, unexpected PROCESS, expecting IF
+ERROR:HDLParsers:1209 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 149. alloc_num_D: Undefined symbol (last report in this block)
+ERROR:HDLParsers:164 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 152. parse error, unexpected PROCESS, expecting IF
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 174. Undefined symbol 'bram_set'.
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 174. Undefined symbol 'bram_set_D'.
+ERROR:HDLParsers:1209 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 174. bram_set_D: Undefined symbol (last report in this block)
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 175. Undefined symbol 'EN_BRAM_OUT'.
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 175. Undefined symbol 'BRAM_GRANT_IN'.
+ERROR:HDLParsers:1209 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 175. BRAM_GRANT_IN: Undefined symbol (last report in this block)
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 176. Undefined symbol 'DATA_BRAM_OUT'.
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 176. Undefined symbol 'cnt_word'.
+ERROR:HDLParsers:1209 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 176. cnt_word: Undefined symbol (last report in this block)
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 177. Undefined symbol 'PE_ID_OUT'.
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 177. Undefined symbol 'pe_id'.
+ERROR:HDLParsers:1209 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 177. pe_id: Undefined symbol (last report in this block)
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 178. Undefined symbol 'BRAM_REQ_OUT'.
+ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 178. Undefined symbol 'bram_req'.
+ERROR:HDLParsers:1209 - "//samba01/dessouga/Projects/dommu_1/rac.vhd" Line 178. bram_req: Undefined symbol (last report in this block)
+
+
+Total REAL time to Xst completion: 4.00 secs
+Total CPU time to Xst completion: 3.53 secs
+ 
+--> 
+
+Total memory usage is 129400 kilobytes
+
+Number of errors   :   28 (   0 filtered)
+Number of warnings :    1 (   0 filtered)
+Number of infos    :    0 (   0 filtered)
+

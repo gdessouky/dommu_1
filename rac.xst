@@ -1,0 +1,5 @@
+set -tmpdir "H:/Projects/dommu_1/xst/projnav.tmp"
+set -xsthdpdir "H:/Projects/dommu_1/xst"
+elaborate
+-ifn rac.prj
+-ifmt mixed

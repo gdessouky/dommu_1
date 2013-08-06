@@ -1,0 +1,3 @@
+vhdl work "\\samba01\dessouga\Projects\dommu_1\user_pkg.vhd"
+vhdl work "\\samba01\dessouga\Projects\dommu_1\mux_generic.vhd"
+vhdl work "\\samba01\dessouga\Projects\dommu_1\xbar_generic.vhd"

@@ -1,0 +1,3 @@
+vhdl work "user_pkg.vhd"
+vhdl work "mux_generic.vhd"
+vhdl work "xbar_generic.vhd"

@@ -1,0 +1,75 @@
+# Reading C:/MentorGraphics/modeltech_10.1c/tcl/vsim/pref.tcl 
+# //  ModelSim SE 10.1c Jul 27 2012 
+# //
+# //  Copyright 1991-2012 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# do {pe.fdo} 
+# ** Warning: (vlib-34) Library already exists at "work".
+# 
+# Model Technology ModelSim SE vcom 10.1c Compiler 2012.07 Jul 27 2012
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity pe
+# -- Compiling architecture pe_rtl of pe
+# vsim -lib work -voptargs=\"+acc\" -t 1ps work.pe 
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.pe(pe_rtl)#1
+# .main_pane.wave.interior.cs.body.pw.wf
+# .main_pane.structure.interior.cs.body.struct
+# .main_pane.objects.interior.cs.body.tree
+force -freeze sim:/pe/CLK_IN 1 0, 0 {50 ps} -r 100
+force -freeze sim:/pe/BRAM_ALERT_IN 1 0
+run
+run
+run
+run
+force -freeze sim:/pe/BRAM_DEPTH_IN 000000001000 0
+force -freeze sim:/pe/BRAM_ACK_IN 1 0
+run
+run
+run
+run
+run
+run
+force -freeze sim:/pe/EN_IN 1 0
+force -freeze sim:/pe/BRAM_ACK_IN 0 0
+force -freeze sim:/pe/BRAM_ALERT_IN 0 0
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+force -freeze sim:/pe/BRAM_ACK_IN 1 0
+run
+run
+run
+quit -sim

@@ -1,0 +1,123 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date:    19:10:25 03/14/2013 
+-- Design Name: 
+-- Module Name:    pe_module - Behavioral 
+-- Project Name: 
+-- Target Devices: 
+-- Tool versions: 
+-- Description: 
+--
+-- Dependencies: 
+--
+-- Revision: 
+-- Revision 0.01 - File Created
+-- Additional Comments: 
+--
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+--use IEEE.std_logic_arith.all;
+--use IEEE.STD_LOGIC_UNSIGNED.all;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+use IEEE.NUMERIC_STD.ALL;
+
+--this line also is must.This includes the particular package into your program.
+--use work.user_pkg.all;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx primitives in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity pe is
+    Port ( EN_IN : in  STD_LOGIC;
+           CLK_IN : in  STD_LOGIC;
+			  BRAM_ACK_IN : in  STD_LOGIC;
+           BRAM_ALERT_IN : in  STD_LOGIC;
+           BRAM_DEPTH_IN : in  STD_LOGIC_VECTOR (11 downto 0);
+           PE_ID_OUT : out  STD_LOGIC_VECTOR (1 downto 0);
+           DATA_OUT : out  STD_LOGIC_VECTOR (11 downto 0);
+           EN_DATA_OUT : out  STD_LOGIC;
+           BRAM_REQ_OUT : out  STD_LOGIC);
+end pe;
+
+architecture pe_rtl of pe is
+	signal cnt_word, cnt_word_D: std_logic_vector (11 downto 0) := (others => '0');
+	signal bram_alloc, bram_alloc_D: std_logic := '0';
+	signal bram_req, en_out_D : std_logic := '0';
+	signal bram_rem, bram_rem_D : std_logic_vector (11 downto 0) := (others => '0');
+	constant pe_id : std_logic_vector (1 downto 0) := "01";
+	
+   
+begin
+
+	-- registers
+	process (CLK_IN)
+	begin
+		if (rising_edge(CLK_IN)) then
+				cnt_word <= cnt_word_D;
+				bram_rem <= bram_rem_D;
+				DATA_OUT <= cnt_word_D;
+				PE_ID_OUT <= pe_id;
+				BRAM_REQ_OUT <= bram_req;
+				EN_DATA_OUT  <= en_out_D;
+				bram_alloc <= bram_alloc_D;
+		end if;			
+	end process;
+						
+						
+						
+	-- combinational circuit						
+	process (EN_IN, cnt_word, bram_alloc)
+	begin
+	  if (EN_IN = '1' and bram_alloc = '1') then 
+	    cnt_word_D <= std_logic_vector(unsigned(cnt_word) + 1);
+	    en_out_D   <= '1';
+	  else
+	    en_out_D   <= '0';
+		  cnt_word_D <= cnt_word;
+		end if;		
+	end process;
+	
+	
+	
+	process (BRAM_ALERT_IN, bram_rem)
+	 begin
+		if ((unsigned(bram_rem) < 2) or (BRAM_ALERT_IN ='1')) then
+		   bram_req <= '1';
+		else
+		  bram_req <= '0';
+		end if;
+	end process;
+
+
+
+	-- combinational circuit						
+	process (BRAM_ACK_IN, BRAM_DEPTH_IN, EN_IN, bram_rem)
+	begin
+	
+	   if (BRAM_ACK_IN ='1') then 
+		   bram_rem_D <= std_logic_vector(unsigned(BRAM_DEPTH_IN));
+		elsif ( EN_IN = '1' and unsigned(bram_rem) > 0) then
+		   bram_rem_D <= std_logic_vector(unsigned(bram_rem) -1);
+		else 
+		   bram_rem_D <= bram_rem;
+	   end if;
+		
+		end process;
+		
+	process (BRAM_ACK_IN, bram_rem, BRAM_ALERT_IN )
+	  begin
+	    if (BRAM_ACK_IN ='1') then 
+	      bram_alloc_D <= '1';
+	    elsif ((unsigned(bram_rem) < 2) or (BRAM_ALERT_IN ='1')) then
+	      bram_alloc_D <= '0';
+	    end if;
+		 
+end pe_rtl;
+
