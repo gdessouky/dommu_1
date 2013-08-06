@@ -119,6 +119,8 @@ package body user_pkg is
 --  end <function_name>;
 
 ---- Procedure Example
+
+-- procedure search_dealloc searches the BRAM deallocation array for suitable BRAM elements that can be allocated
 procedure search_dealloc  (variable bram_dealloc_flag_v	: in std_logic_vector(N downto 0);
 								  signal bram_array			: in bram_type;
 								  variable search_dealloc_ok_v : out std_logic;
@@ -140,6 +142,7 @@ procedure search_dealloc  (variable bram_dealloc_flag_v	: in std_logic_vector(N 
 		end loop;
 	end procedure search_dealloc;
 
+-- procedure add_bram_alloc_array asserts that a certain BRAM element has been allocated to a certain PE
 procedure add_bram_alloc_array (signal bram_alloc_array: inout bram_alloc_type (N downto 0);
 								        variable bram_to_alloc_index: in natural; 
 										  variable pe_id_v : in natural) is
@@ -149,7 +152,8 @@ procedure add_bram_alloc_array (signal bram_alloc_array: inout bram_alloc_type (
 		bram_alloc_array(bram_to_alloc_index).pe_rd <= pe_id_v;
 		bram_alloc_array(bram_to_alloc_index).pe_rd_wr <= pe_id_v;
 	end procedure add_bram_alloc_array;
-	
+
+-- procedure assign_brat_to_pe assigns a BRAT to a PE in case a PE has not been assigned to a BRAT yet
 procedure assign_brat_to_pe (signal pe_alloc_array: inout pe_alloc_type (M downto 0);
 									  variable pe_id_v : in natural) is
 	begin
@@ -158,6 +162,27 @@ procedure assign_brat_to_pe (signal pe_alloc_array: inout pe_alloc_type (M downt
 		end if;
 		pe_alloc_array(pe_id_v-1).bram_count <= pe_alloc_array(pe_id_v-1).bram_count + 1;
 	end procedure assign_brat_to_pe;
-	
+
+-- procedure search_unalloc_bram searches the array of available free BRAM elements for suitable BRAM elements that can be allocated
+procedure search_unalloc_bram (variable bram_unalloc_flag_v	: in std_logic_vector(N downto 0);
+								  signal bram_array			: in bram_type;
+								  variable search_dealloc_ok_v : out std_logic;
+								  variable bram_to_alloc_index_v : out natural;
+								  variable bram_req_depth_v				: in natural;
+								  variable bram_req_width_v				: in natural) is
+   variable index: natural;
+	begin
+		search_unalloc_ok_v := '0'; -- flag to assert or de-assert success of search (exit value!)
+		for index in bram_dealloc_flag_v'range loop
+			if bram_dealloc_flag_v(index) = '1' then -- de-allocated BRAM element 
+				if (bram_array(index).width = bram_req_width_v) and (bram_array(index).depth -  bram_req_depth_v <= (bram_req_depth_v * BRAM_DEPTH_MATCH_MARGIN / 100)) then -- need to have a certain
+				-- allowed margin, depth can be more by now many words?
+					bram_to_alloc_index_v := index;
+					search_dealloc_ok_v := '1';
+					exit;
+				end if;
+			end if;
+		end loop;
+	end procedure search_dealloc;	
 	
 end user_pkg;

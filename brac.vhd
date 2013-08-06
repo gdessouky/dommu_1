@@ -176,7 +176,9 @@ begin
 									assign_brat_to_pe(pe_alloc_array, pe_id_v);
 									
 									-- TODO: BRAT?? Need to inform the concerned BRAT with the new element assigned!
-								else  -- search not successful 
+									-- TODO: check states and assign new states!
+								else  -- search not successful in deallocation/BRAM priority array
+									search_unalloc(
 									
 								
 								
