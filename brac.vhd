@@ -95,6 +95,11 @@ architecture brac_ctrl of brac is
 	-- No preference is given to the first or last deallocated BRAM element or so!
 	-- Fragmentation is not really an issue since memory mapping of random memory size is not a concern
 	-- This is used along with the bram_dealloc_count to keep track of the number of BRAM elements de-allocated
+	signal bram_alloc_flag : std_logic_vector (BRAM_NUM downto 0);  
+	-- bram_unalloc_flag vector keeps track of unallocated BRAM elements (second priority vector list)
+	-- entirely unallocated BRAM elements are assigned '0' 
+	-- allocated and de-allocated BRAM elements are assigned '1'
+	-- these flag vectors can be employed to establish BRAM priority vectors (list of BRAM elements with priorities, etc.)
 	
 	-- registers to keep track of the number of allocated BRAM elements,
 	-- and number of deallocated BRAM elements, and finally number
@@ -103,20 +108,23 @@ architecture brac_ctrl of brac is
 	-- of the numbers and to aid in locating data in the arrays
 	signal bram_alloc_count, bram_alloc_count_D : natural := 0;
 	signal bram_dealloc_count, bram_dealloc_count_D : natural := 0;
+	signal bram_unalloc_count, bram_unalloc_count_D : natural := BRAM_NUM;
 	signal pe_alloc_count, pe_alloc_count_D : natural := 0;
-	
 	signal bram_rem_count, bram_rem_count_D : natural :=0; -- to indicate remaining BRAM elements unallocated
-	signal bram_req_rem : natural := 0;
+	signal bram_req_rem_count : natural := 0;
+	signal bram_to_alloc_index: natural := 0; -- to indicate the BRAM element index in the deallocation array	
+	signal alloc_ack : std_logic := '0';
+	signal alloc_ack_count : natural := 0;
+	signal alloc_nack  : std_logic := '0';
+	signal alloc_nack_code : std_logic_vector (1 downto 0) := "00"; 
+
 	
-	signal bram_to_alloc_index: natural := 0; -- to indicate the BRAM element index in the deallocation array
 	
 	
 	signal alloc_en: std_logic := '0';
 	signal bram_ack: std_logic := '0';
 	signal bram_grant: std_logic := '0';
-	
-	
-	signal bram_id_wr: std_logic_vector(1 downto 0):= "00";
+
 
 begin
 	
@@ -127,16 +135,23 @@ begin
 	process (EN_IN, current_state, BRAM_REQ_IN, bram_rem_count, bram_dealloc_count, bram_dealloc_flag, bram_array, search_dealloc_ok, bram_to_alloc_index, BRAM_REQ_DEPTH,  BRAM_REQ_WIDTH )
 	
 	-- variables for combinational logic within the controller process and FSM
-	variable bram_rem_v: natural := 0;
-	variable bram_dealloc_v : natural := 0;
-	variable bram_rem_req_v   : natural := 0;
+	variable bram_alloc_count_v : natural:= 0;
+	variable bram_dealloc_count_v : natural:= 0;
+	variable bram_unalloc_count_v : natural := 0;
+	variable bram_req_rem_count_v : natural := 0;
+	variable bram_rem_count_v: natural := 0;
+	
 	variable search_dealloc_ok_v : std_logic := '0'; -- to indicate if the search in deallocation array was successful
 	variable bram_dealloc_flag_v : std_logic_vector(BRAM_NUM downto 0) := (others => '0');
+	variable bram_alloc_flag_v : std_logic_vector(BRAM_NUM downto 0) := (others => '0');
 	variable bram_to_alloc_index_v : natural := 0;
-	variable bram_alloc_count_v : natural;
+	
 	variable bram_req_depth_v  : natural;
 	variable bram_req_width_v : natural;
 	variable pe_id_v : positive;
+	
+	variable alloc_ack_v : std_logic := '0';
+	variable alloc_ack_count_v : natural := 0;
 
 	begin
 		if (EN_IN = '1') then  -- controller enabled
@@ -146,64 +161,60 @@ begin
 				when s0 =>
 				if (BRAM_REQ_IN = '1') then    -- BRAM_REQ_IN therefore capture the BRAM request parameters entered
 					-- assign signals and inputs to variables before beginning to serve the BRAM requests
-				   bram_rem_req_v := BRAM_REQ_COUNT_IN; -- read value of number of requested BRAM elements
-					bram_rem_v := bram_rem_count;   -- read value of remaining free BRAM elements in system
-					bram_dealloc_v := bram_dealloc_count;
+				   bram_req_rem_count_v := BRAM_REQ_COUNT_IN; -- read value of number of requested BRAM elements
+					bram_rem_count_v := bram_rem_count;   -- read value of remaining free BRAM elements in system
+					bram_dealloc_count_v := bram_dealloc_count;
+					bram_unalloc_count_v := bram_unalloc_count;
+					bram_alloc_count_v := bram_alloc_count;
 					bram_dealloc_flag_v := bram_dealloc_flag;
+					bram_alloc_flag_v := bram_alloc_flag;
 					bram_req_depth_v := BRAM_REQ_DEPTH_IN;
 					bram_req_width_v := BRAM_REQ_WIDTH_IN;
-					bram_alloc_count_v := bram_alloc_count;
 					pe_id_v  			:= PE_ID_IN;
 					
 					-- serve the first BRAM element request 
-					if (bram_rem_count_v > 0) then 
-						if ( bram_rem_v> 0) then 		  -- remaining unallocated BRAM elements > 0
-							if ( bram_dealloc_num > 0 and search_dealloc_ok_v = '0') then -- deallocated BRAM elements: consider these first	
+					if (bram_req_rem_count_v > 0) then 
+						if ( bram_rem_count_v> 0) then 		  -- remaining unallocated BRAM elements > 0
+							if ( bram_dealloc_count_v > 0 and search_dealloc_ok_v = '0') then -- deallocated BRAM elements: consider these first	
 								search_dealloc(bram_dealloc_flag_v, bram_array, search_dealloc_ok_v, bram_to_alloc_index_v, bram_req_depth_v, bram_req_width_v);
 								if (search_dealloc_ok_v = '1') then
-								   
 									-- update all counts
-									bram_rem_v := bram_rem_v - 1;
-									bram_rem_req_v := bram_rem_req_v - 1;
+									bram_rem_count_v := bram_rem_count_v - 1;
+									bram_req_rem_count_v := bram_req_rem_count_v - 1;
 									bram_alloc_count_v := bram_alloc_count_v + 1;
-									bram_dealloc_v := bram_dealloc_v - 1;
-									
+									bram_dealloc_count_v := bram_dealloc_count_v - 1;
 									-- update dealloc and alloc array data
 									bram_dealloc_flag_v(bram_to_alloc_index) <= '0'; -- allocated element
 									add_bram_alloc_array(bram_alloc_array, bram_to_alloc_index, pe_id_v); -- add the allocated BRAM element to the array 
-									
 									-- update PE information
 									assign_brat_to_pe(pe_alloc_array, pe_id_v);
-									
 									-- TODO: BRAT?? Need to inform the concerned BRAT with the new element assigned!
 									-- TODO: check states and assign new states!
-								else  -- search not successful in deallocation/BRAM priority array
-									search_unalloc(
+								elsif (bram_unalloc_count_v > 0 and search_unalloc_ok_v = '0') then -- unallocated BRAM elements: consider these second priority
+									search_unalloc(bram_alloc_flag_v, bram_array, search_unalloc_ok_v, bram_to_alloc_index_v, bram_req_depth_v, bram_req_width_v);
+									if (search_unalloc_ok_v = '1') then
+										-- update all counts
+										bram_rem_count_v := bram_rem_count_v - 1;
+										bram_req_rem_count_v := bram_req_rem_count_v - 1;
+										bram_alloc_count_v := bram_alloc_count_v + 1;
+										bram_unalloc_v := bram_unalloc_v - 1;
+										-- update dealloc and alloc array data
+										bram_alloc_flag_v(bram_to_alloc_index) <= '1'; -- allocated element
+										add_bram_alloc_array(bram_alloc_array, bram_to_alloc_index, pe_id_v); -- add the allocated BRAM element to the array 
+										-- update PE information
+										assign_brat_to_pe(pe_alloc_array, pe_id_v);
+										-- TODO: BRAT?? Need to inform the concerned BRAT with the new element assigned!
+										-- TODO: check states and assign new states!
+									else -- allocation of one of all the BRAM elements has failed
+										alloc_ack <= '0';
+										alloc_nack <= '1';
+									
 									
 								
 								
 								end if;
 									
 									
-									
-									
-									
-								
-						while (bram_rem_count_v > 0) loop  -- requested BRAM elements still not served		
-								
-								
-						
-						if ( bram_dealloc_num > 0 and search_dealloc_ok = '0') then -- deallocated BRAM elements: consider these first	
-							search_dealloc(bram_dealloc_flag, bram_array, search_dealloc_ok, bram_to_alloc_index, BRAM_REQ_DEPTH, BRAM_REQ_WIDTH);
-							if (search_dealloc_ok = '1') then
-								bram_rem := bram_rem - 1;
-								bram_dealloc_num := bram_dealloc_num - 1;
-							end if;
-						end if;
-					end if;
-				end loop;
-			end if;
-		end if;
 	end process;
 	
 	

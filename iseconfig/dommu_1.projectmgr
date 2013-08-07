@@ -137,13 +137,13 @@
          <ClosedNodesVersion>2</ClosedNodesVersion>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>brac.vhd (H:/Projects/dommu_1/brac.vhd)</SelectedItem>
+         <SelectedItem>user_pkg.vhd (H:/Projects/dommu_1/user_pkg.vhd)</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000f3000000020000000000000000000000000000000064ffffffff0000008100000000000000020000008f0000000100000000000000640000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>brac.vhd (H:/Projects/dommu_1/brac.vhd)</CurrentItem>
+      <CurrentItem>user_pkg.vhd (H:/Projects/dommu_1/user_pkg.vhd)</CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="DESUT_XCO" guiview="Process" >
       <ClosedNodes>
