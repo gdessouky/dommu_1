@@ -1,1 +1,2 @@
 vhdl work "user_pkg.vhd"
+vhdl work "arbitrator_brac.vhd"

@@ -1,4 +1,4 @@
-Release 13.4 - xst O.87xd (nt)
+Release 13.4 - xst O.87xd (nt64)
 Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
 --> Parameter TMPDIR set to xst/projnav.tmp
 
@@ -112,14 +112,316 @@ Cores Search Directories           : {"ipcore_dir"  }
 *                          HDL Compilation                              *
 =========================================================================
 Compiling vhdl file "//samba01/dessouga/Projects/dommu_1/user_pkg.vhd" in Library work.
-WARNING:HDLParsers:3530 - Time stamp of file "//samba01/dessouga/Projects/dommu_1/user_pkg.vhd" is newer than current system time.
-Package <user_pkg> compiled.
-ERROR:HDLParsers:3312 - "//samba01/dessouga/Projects/dommu_1/user_pkg.vhd" Line 127. Undefined symbol 'BRAM_REQ_DEPTH'.
+Architecture user_pkg of Entity user_pkg is up to date.
+Compiling vhdl file "//samba01/dessouga/Projects/dommu_1/arbitrator_brac.vhd" in Library work.
+Entity <arbitrator_brac> compiled.
+Entity <arbitrator_brac> (Architecture <Behavioral>) compiled.
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+Analyzing hierarchy for entity <pe> in library <work> (architecture <pe_rtl>).
+
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing Entity <pe> in library <work> (Architecture <pe_rtl>).
+INFO:Xst:2679 - Register <PE_ID_OUT> in unit <pe> has a constant value of 0000000000000000000000000000001 during circuit operation. The register is replaced by logic.
+Entity <pe> analyzed. Unit <pe> generated.
+
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Performing bidirectional port resolution...
+
+Synthesizing Unit <pe>.
+    Related source file is "//samba01/dessouga/Projects/dommu_1/pe.vhd".
+    Found 12-bit register for signal <DATA_OUT>.
+    Found 1-bit register for signal <EN_DATA_OUT>.
+    Found 1-bit register for signal <BRAM_REQ_OUT>.
+    Found 1-bit register for signal <bram_alloc>.
+    Found 12-bit comparator less for signal <bram_alloc_D$cmp_lt0000> created at line 128.
+    Found 12-bit down counter for signal <bram_rem>.
+    Found 12-bit register for signal <cnt_word>.
+    Found 12-bit adder for signal <cnt_word_D$addsub0000> created at line 86.
+    Summary:
+	inferred   1 Counter(s).
+	inferred  27 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
+	inferred   1 Comparator(s).
+Unit <pe> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 1
+ 12-bit adder                                          : 1
+# Counters                                             : 1
+ 12-bit down counter                                   : 1
+# Registers                                            : 5
+ 1-bit register                                        : 3
+ 12-bit register                                       : 2
+# Comparators                                          : 1
+ 12-bit comparator less                                : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 1
+ 12-bit adder                                          : 1
+# Counters                                             : 1
+ 12-bit down counter                                   : 1
+# Registers                                            : 27
+ Flip-Flops                                            : 27
+# Comparators                                          : 1
+ 12-bit comparator less                                : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+INFO:Xst:2261 - The FF/Latch <cnt_word_4> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_4> 
+INFO:Xst:2261 - The FF/Latch <cnt_word_5> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_5> 
+INFO:Xst:2261 - The FF/Latch <cnt_word_6> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_6> 
+INFO:Xst:2261 - The FF/Latch <cnt_word_7> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_7> 
+INFO:Xst:2261 - The FF/Latch <cnt_word_8> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_8> 
+INFO:Xst:2261 - The FF/Latch <cnt_word_9> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_9> 
+INFO:Xst:2261 - The FF/Latch <cnt_word_10> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_10> 
+INFO:Xst:2261 - The FF/Latch <cnt_word_11> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_11> 
+INFO:Xst:2261 - The FF/Latch <cnt_word_0> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_0> 
+INFO:Xst:2261 - The FF/Latch <cnt_word_1> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_1> 
+INFO:Xst:2261 - The FF/Latch <cnt_word_2> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_2> 
+INFO:Xst:2261 - The FF/Latch <cnt_word_3> in Unit <pe> is equivalent to the following FF/Latch, which will be removed : <DATA_OUT_3> 
+
+Optimizing unit <pe> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block pe, actual ratio is 0.
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 27
+ Flip-Flops                                            : 27
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : pe.ngr
+Top Level Output File Name         : pe
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : No
+
+Design Statistics
+# IOs                              : 61
+
+Cell Usage :
+# BELS                             : 78
+#      GND                         : 1
+#      INV                         : 2
+#      LUT1                        : 11
+#      LUT2                        : 1
+#      LUT3                        : 13
+#      LUT4                        : 1
+#      LUT5                        : 1
+#      LUT6                        : 1
+#      MUXCY                       : 22
+#      VCC                         : 1
+#      XORCY                       : 24
+# FlipFlops/Latches                : 27
+#      FD                          : 3
+#      FDE                         : 24
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 60
+#      IBUF                        : 15
+#      OBUF                        : 45
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 5vlx110tff1136-1 
+
+
+Slice Logic Utilization: 
+ Number of Slice Registers:              27  out of  69120     0%  
+ Number of Slice LUTs:                   30  out of  69120     0%  
+    Number used as Logic:                30  out of  69120     0%  
+
+Slice Logic Distribution: 
+ Number of LUT Flip Flop pairs used:     30
+   Number with an unused Flip Flop:       3  out of     30    10%  
+   Number with an unused LUT:             0  out of     30     0%  
+   Number of fully used LUT-FF pairs:    27  out of     30    90%  
+   Number of unique control sets:         3
+
+IO Utilization: 
+ Number of IOs:                          61
+ Number of bonded IOBs:                  61  out of    640     9%  
+
+Specific Feature Utilization:
+ Number of BUFG/BUFGCTRLs:                1  out of     32     3%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+CLK_IN                             | BUFGP                  | 27    |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -1
+
+   Minimum period: 2.117ns (Maximum Frequency: 472.367MHz)
+   Minimum input arrival time before clock: 2.611ns
+   Maximum output required time after clock: 3.264ns
+   Maximum combinational path delay: No path found
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'CLK_IN'
+  Clock period: 2.117ns (frequency: 472.367MHz)
+  Total number of paths / destination ports: 193 / 51
+-------------------------------------------------------------------------
+Delay:               2.117ns (Levels of Logic = 2)
+  Source:            bram_rem_3 (FF)
+  Destination:       bram_alloc (FF)
+  Source Clock:      CLK_IN rising
+  Destination Clock: CLK_IN rising
+
+  Data Path: bram_rem_3 to bram_alloc
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q              2   0.471   0.978  bram_rem_3 (bram_rem_3)
+     LUT5:I0->O            1   0.094   0.480  bram_alloc_D13 (bram_alloc_D13)
+     LUT6:I5->O            1   0.094   0.000  bram_alloc_rstpot (bram_alloc_rstpot)
+     FD:D                     -0.018          bram_alloc
+    ----------------------------------------
+    Total                      2.117ns (0.659ns logic, 1.458ns route)
+                                       (31.1% logic, 68.9% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'CLK_IN'
+  Total number of paths / destination ports: 207 / 38
+-------------------------------------------------------------------------
+Offset:              2.611ns (Levels of Logic = 14)
+  Source:            BRAM_DEPTH_IN<0> (PAD)
+  Destination:       bram_rem_11 (FF)
+  Destination Clock: CLK_IN rising
+
+  Data Path: BRAM_DEPTH_IN<0> to bram_rem_11
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             1   0.818   0.710  BRAM_DEPTH_IN_0_IBUF (BRAM_DEPTH_IN_0_IBUF)
+     LUT3:I0->O            1   0.094   0.000  Mcount_bram_rem_lut<0> (Mcount_bram_rem_lut<0>)
+     MUXCY:S->O            1   0.372   0.000  Mcount_bram_rem_cy<0> (Mcount_bram_rem_cy<0>)
+     MUXCY:CI->O           1   0.026   0.000  Mcount_bram_rem_cy<1> (Mcount_bram_rem_cy<1>)
+     MUXCY:CI->O           1   0.026   0.000  Mcount_bram_rem_cy<2> (Mcount_bram_rem_cy<2>)
+     MUXCY:CI->O           1   0.026   0.000  Mcount_bram_rem_cy<3> (Mcount_bram_rem_cy<3>)
+     MUXCY:CI->O           1   0.026   0.000  Mcount_bram_rem_cy<4> (Mcount_bram_rem_cy<4>)
+     MUXCY:CI->O           1   0.026   0.000  Mcount_bram_rem_cy<5> (Mcount_bram_rem_cy<5>)
+     MUXCY:CI->O           1   0.026   0.000  Mcount_bram_rem_cy<6> (Mcount_bram_rem_cy<6>)
+     MUXCY:CI->O           1   0.026   0.000  Mcount_bram_rem_cy<7> (Mcount_bram_rem_cy<7>)
+     MUXCY:CI->O           1   0.026   0.000  Mcount_bram_rem_cy<8> (Mcount_bram_rem_cy<8>)
+     MUXCY:CI->O           1   0.026   0.000  Mcount_bram_rem_cy<9> (Mcount_bram_rem_cy<9>)
+     MUXCY:CI->O           0   0.026   0.000  Mcount_bram_rem_cy<10> (Mcount_bram_rem_cy<10>)
+     XORCY:CI->O           1   0.357   0.000  Mcount_bram_rem_xor<11> (Mcount_bram_rem11)
+     FDE:D                    -0.018          bram_rem_11
+    ----------------------------------------
+    Total                      2.611ns (1.901ns logic, 0.710ns route)
+                                       (72.8% logic, 27.2% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'CLK_IN'
+  Total number of paths / destination ports: 14 / 14
+-------------------------------------------------------------------------
+Offset:              3.264ns (Levels of Logic = 1)
+  Source:            cnt_word_11 (FF)
+  Destination:       DATA_OUT<11> (PAD)
+  Source Clock:      CLK_IN rising
+
+  Data Path: cnt_word_11 to DATA_OUT<11>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q              2   0.471   0.341  cnt_word_11 (cnt_word_11)
+     OBUF:I->O                 2.452          DATA_OUT_11_OBUF (DATA_OUT<11>)
+    ----------------------------------------
+    Total                      3.264ns (2.923ns logic, 0.341ns route)
+                                       (89.6% logic, 10.4% route)
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 8.00 secs
+Total CPU time to Xst completion: 8.59 secs
+ 
 --> 
 
-Total memory usage is 154400 kilobytes
+Total memory usage is 272392 kilobytes
 
-Number of errors   :    1 (   0 filtered)
-Number of warnings :    1 (   0 filtered)
-Number of infos    :    0 (   0 filtered)
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    0 (   0 filtered)
+Number of infos    :   13 (   0 filtered)
 

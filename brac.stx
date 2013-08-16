@@ -18,16 +18,18 @@ Total CPU time to Xst completion: 0.17 secs
 *                          HDL Compilation                              *
 =========================================================================
 Compiling vhdl file "//samba01/dessouga/Projects/dommu_1/user_pkg.vhd" in Library work.
-Package <user_pkg> compiled.
-Package body <user_pkg> compiled.
+Architecture user_pkg of Entity user_pkg is up to date.
+Compiling vhdl file "//samba01/dessouga/Projects/dommu_1/brac.vhd" in Library work.
+Entity <brac> compiled.
+Entity <brac> (Architecture <brac_ctrl>) compiled.
 
 
-Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.48 secs
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.50 secs
  
 --> 
 
-Total memory usage is 203808 kilobytes
+Total memory usage is 204832 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :    1 (   0 filtered)

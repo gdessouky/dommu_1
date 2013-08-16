@@ -42,7 +42,7 @@ type xbar_sel_port_2 IS ARRAY (N - 1 downto 0)  OF natural range 0 to M-1;
 subtype bram_depth_match is integer range 0 to 100; -- 0 means exact match, 100 means 100% extra
 constant BRAM_DEPTH_MATCH_MARGIN: bram_depth_match:= 0; -- BRAM_DEPTH_MATCH_MARGIN is used to define the acceptable margin difference in depth of BRAM elemen	
 -- to accept it to serve a PE request for BRAM
-
+constant BRAM_REQ_MAX: positive := 2; -- constant which denotes the maximum number of BRAM elements a single PE can request to allocate at once
 
 -- BRAM ID and PE ID are in the natural range: 0 + -> positive
 
@@ -71,12 +71,25 @@ type pe_alloc is	-- the array is created with records for all PEs but not all PE
 	record         -- when not assigned to RAT, the brat_id is 0
 		pe_id: positive; -- there is a record for every PE
 		brat_id: natural;  -- when 0 then the PE is not assigned
+		pe_priority: natural; -- when 0 then the PE is not assigned
+		-- pe_priority is a positive number indicating priority for arbitrating when there is allocation/de-allocation contention
+		-- smaller number indicates higher priority
 		bram_count: natural; -- because it can be allocated zero BRAM elements in case all its assigned BRAM elements get de-allocated
 	end record;
 	
 type pe_alloc_type is array (NATURAL RANGE <>) of pe_alloc;
-
-	
+subtype fsm_state_type is std_logic_vector(9 downto 0); -- one-hot encoding for 10 states
+-- definition of the FSM states
+constant S0: fsm_state_type:= "0000000001";
+constant S1: fsm_state_type:= "0000000010";
+constant S2: fsm_state_type:= "0000000100";
+constant S3: fsm_state_type:= "0000001000";
+constant S4: fsm_state_type:= "0000010000";
+constant S5: fsm_state_type:= "0000100000";
+constant S6: fsm_state_type:= "0001000000";
+constant S7: fsm_state_type:= "0010000000";
+constant S8: fsm_state_type:= "0100000000";
+constant S9: fsm_state_type:= "1000000000";
 
 -- Declare functions and procedure
 --
@@ -101,7 +114,8 @@ procedure add_bram_alloc_array (signal bram_alloc_array: inout bram_alloc_type (
 										  variable pe_id_v : in natural);
 										  
 procedure assign_brat_to_pe (signal pe_alloc_array: inout pe_alloc_type (M downto 0);
-									  variable pe_id_v : in natural);
+									  variable pe_id_v : in natural;
+									  variable pe_priority_v : in natural);
 
 end user_pkg;
 
@@ -164,12 +178,14 @@ procedure add_bram_alloc_array (signal bram_alloc_array: inout bram_alloc_type (
 
 -- procedure assign_brat_to_pe assigns a BRAT to a PE in case a PE has not been assigned to a BRAT yet
 procedure assign_brat_to_pe (signal pe_alloc_array: inout pe_alloc_type (M downto 0);
-									  variable pe_id_v : in natural) is
+									  variable pe_id_v : in natural;
+									  variable pe_priority_v : in natural) is
 	begin
 		if (pe_alloc_array(pe_id_v-1).brat_id = 0) then   -- not assigned to BRAT yet
 			 pe_alloc_array(pe_id_v-1).brat_id <= pe_id_v;  -- assign BRAT ID to be equal to PE ID
 		end if;
 		pe_alloc_array(pe_id_v-1).bram_count <= pe_alloc_array(pe_id_v-1).bram_count + 1;
+		pe_alloc_array(pe_id_v-1).pe_priority <= pe_priority_v;
 	end procedure assign_brat_to_pe;
 
 -- procedure search_unalloc searches the array of available free BRAM elements for suitable BRAM elements that can be allocated
